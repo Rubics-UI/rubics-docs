@@ -24,7 +24,7 @@ export interface ComponentDemo {
 }
 
 export interface DemoElement {
-  type: 'button' | 'input' | 'checkbox' | 'slider' | 'otp' | 'text' | 'spacer'
+  type: 'button' | 'input' | 'checkbox' | 'slider' | 'otp' | 'text' | 'spacer' | 'carousel' | 'combobox' | 'date-picker' | 'login-card' | 'progress' | 'radio-group' | 'range-slider' | 'select-card' | 'sidebar' | 'skeleton'
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props?: Record<string, any>
 }
@@ -179,6 +179,247 @@ export const components: ComponentDemo[] = [
     usage: [
       { label: 'Basic', code: '<Slider value={50} onValueChange={setValue} />' },
       { label: 'With Labels', code: '<Slider min={0} max={100} startLabel="0%" endLabel="100%" value={val} onValueChange={setVal} />' },
+    ]
+  },
+  {
+    slug: 'carousel',
+    name: 'Carousel',
+    description: 'A swipeable image carousel with pagination dots.',
+    category: 'display',
+    installCommand: 'rubics add carousel',
+    iphoneDemo: {
+      screenTitle: 'Gallery',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'carousel' }
+      ]
+    },
+    props: [
+      { name: 'data', type: 'ImageSourcePropType[]', description: 'Array of images to display.' },
+      { name: 'width', type: 'number', description: 'Width of the carousel. Defaults to the screen width.' },
+      { name: 'height', type: 'number', description: 'Height of the images. Defaults to 220.' },
+      { name: 'showDots', type: 'boolean', description: 'Whether to show the pagination dots below the carousel. Defaults to true.' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Custom styles for the wrapper container.' },
+      { name: 'imageStyle', type: 'StyleProp<ImageStyle>', description: 'Custom styles for the individual images.' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<Carousel data={[{ uri: "https://example.com/image.jpg" }]} />' }
+    ]
+  },
+  {
+    slug: 'combobox',
+    name: 'Combobox',
+    description: 'A searchable dropdown for selecting among options.',
+    category: 'form',
+    installCommand: 'rubics add combobox',
+    iphoneDemo: {
+      screenTitle: 'Select Option',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Framework', style: 'section' } },
+        { type: 'combobox' },
+        { type: 'spacer' },
+        { type: 'text', props: { label: 'Language', style: 'section' } },
+        { type: 'combobox' }
+      ]
+    },
+    props: [
+      { name: 'options', type: 'ComboboxOption[]', description: 'Array of available options' },
+      { name: 'value', type: 'string', description: 'Currently selected value string' },
+      { name: 'onValueChange', type: '(value: string) => void', description: 'Triggered when the user taps on an item' },
+      { name: 'placeholder', type: 'string', description: 'Text shown dynamically inside the input box when no item is selected or user is not searching' },
+      { name: 'emptyText', type: 'string', description: 'Label to show when filtering returns empty matches' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Styling for Combobox' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<Combobox options={[{ label: "React", value: "react" }]} value={value} onValueChange={setValue} />' }
+    ]
+  },
+  {
+    slug: 'date-picker',
+    name: 'Date Picker',
+    description: 'A customizable date picker with calendar interaction.',
+    category: 'form',
+    installCommand: 'rubics add date-picker',
+    iphoneDemo: {
+      screenTitle: 'Schedule',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Pick a date', style: 'section' } },
+        { type: 'date-picker' }
+      ]
+    },
+    props: [
+      { name: 'value', type: 'Date', description: 'The currently selected Date object' },
+      { name: 'onValueChange', type: '(date: Date) => void', description: 'Callback fired when a date is selected' },
+      { name: 'placeholder', type: 'string', description: 'Text to show when no date is selected. Default: "Pick a date"' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Styles for the DatePicker' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<DatePicker value={date} onValueChange={setDate} />' }
+    ]
+  },
+  {
+    slug: 'login-card',
+    name: 'Login Card',
+    description: 'A styled card component to structure authentication forms.',
+    category: 'display',
+    installCommand: 'rubics add login-card',
+    iphoneDemo: {
+      screenTitle: 'Welcome',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'login-card' }
+      ]
+    },
+    props: [
+      { name: 'children', type: 'React.ReactNode', description: 'Content of the login card' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Styles applied to the container' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<LoginCard>\n  <LoginCardHeader title="Login" />\n  <Input label="Email" />\n</LoginCard>' }
+    ]
+  },
+  {
+    slug: 'progress',
+    name: 'Progress',
+    description: 'Displays a progress bar with a customizable percentage.',
+    category: 'feedback',
+    installCommand: 'rubics add progress',
+    iphoneDemo: {
+      screenTitle: 'Loading',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Downloading...', style: 'section' } },
+        { type: 'spacer' },
+        { type: 'progress', props: { value: 65 } },
+        { type: 'spacer' },
+        { type: 'text', props: { label: 'Verification', style: 'section' } },
+        { type: 'spacer' },
+        { type: 'progress', props: { value: 30 } }
+      ]
+    },
+    props: [
+      { name: 'value', type: 'number', description: 'The progress value from 0 to 100' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Custom styles for the background track' },
+      { name: 'indicatorStyle', type: 'StyleProp<ViewStyle>', description: 'Custom styles for the filled indicator' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<Progress value={50} />' }
+    ]
+  },
+  {
+    slug: 'radio-group',
+    name: 'Radio Group',
+    description: 'A set of checkable buttons, mutually exclusive.',
+    category: 'form',
+    installCommand: 'rubics add radio-group',
+    iphoneDemo: {
+      screenTitle: 'Preferences',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Notify me via', style: 'section' } },
+        { type: 'radio-group' }
+      ]
+    },
+    props: [
+      { name: 'options', type: 'RadioOption[]', description: 'Set of available radio buttons' },
+      { name: 'value', type: 'string', description: 'Selected value' },
+      { name: 'onChange', type: '(value: string) => void', description: 'Called on radio switch' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Styles applied to group' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<RadioGroup options={[{ label: "Email", value: "email" }]} value={val} onChange={setVal} />' }
+    ]
+  },
+  {
+    slug: 'range-slider',
+    name: 'Range Slider',
+    description: 'A powerful double-slider for selecting numeric ranges.',
+    category: 'form',
+    installCommand: 'rubics add range-slider',
+    npmDeps: ['react-native-reanimated', 'react-native-gesture-handler'],
+    iphoneDemo: {
+      screenTitle: 'Filters',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Price Range', style: 'section' } },
+        { type: 'range-slider', props: { value: [20, 80] } }
+      ]
+    },
+    props: [
+      { name: 'min', type: 'number', description: 'Minimum bounds' },
+      { name: 'max', type: 'number', description: 'Maximum bounds' },
+      { name: 'value', type: '[number, number]', description: 'The range values' },
+      { name: 'onValueChange', type: '(value: [number, number]) => void', description: 'Value changer' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<RangeSlider value={[10, 50]} onValueChange={setRange} />' }
+    ]
+  },
+  {
+    slug: 'select-card',
+    name: 'Select Card',
+    description: 'Card-based mutually exclusive choices.',
+    category: 'form',
+    installCommand: 'rubics add select-card',
+    iphoneDemo: {
+      screenTitle: 'Plan',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'text', props: { label: 'Choose a Plan', style: 'section' } },
+        { type: 'select-card' }
+      ]
+    },
+    props: [
+      { name: 'value', type: 'string', description: 'Selected card value' },
+      { name: 'onValueChange', type: '(value: string) => void', description: 'Called on selection change' },
+      { name: 'disabled', type: 'boolean', description: 'Disables all cards in group' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<SelectCardGroup value={val} onValueChange={setVal}>\n  <SelectCard value="pro" title="Pro" />\n</SelectCardGroup>' }
+    ]
+  },
+  {
+    slug: 'sidebar',
+    name: 'Sidebar',
+    description: 'A side-panel layout mechanism for primary navigation.',
+    category: 'navigation',
+    installCommand: 'rubics add sidebar',
+    iphoneDemo: {
+      screenTitle: 'Navigation',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'sidebar' }
+      ]
+    },
+    props: [
+      { name: 'width', type: 'number', description: 'Width of the sidebar' },
+      { name: 'children', type: 'ReactNode', description: 'Sidebar internal content' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<Sidebar>\n  <SidebarGroup title="Menu">\n    <SidebarButton title="Home" />\n  </SidebarGroup>\n</Sidebar>' }
+    ]
+  },
+  {
+    slug: 'skeleton',
+    name: 'Skeleton',
+    description: 'Loading placeholder with fading animation.',
+    category: 'feedback',
+    installCommand: 'rubics add skeleton',
+    iphoneDemo: {
+      screenTitle: 'Loading',
+      screenBg: '#09090b',
+      elements: [
+        { type: 'skeleton' }
+      ]
+    },
+    props: [
+      { name: 'isLoaded', type: 'boolean', description: 'Stops skeleton loading state when true' },
+      { name: 'style', type: 'StyleProp<ViewStyle>', description: 'Size properties for the skeleton block' }
+    ],
+    usage: [
+      { label: 'Basic', code: '<Skeleton style={{ width: 100, height: 20 }} isLoaded={loaded} />' }
     ]
   }
 ]

@@ -1,0 +1,336 @@
+"component","command","code_sample","props_info","template_file"
+"button","rubics add button","export function Button({
+  children,
+  variant = ""default"",
+  size = ""md"",
+  loading,
+  style,
+  disabled,
+  ...rest
+}: Props) {
+  const { theme } = useTheme();
+
+  const variantStyles =
+    variant === ""outline""
+      ? {
+          backgroundColor: ""transparent"",
+          borderWidth: 1,
+          borderColor: theme.cardBorder,
+        }
+      : variant === ""ghost""
+      ? {
+          backgroundColor: ""transparent"",
+        }","Props: children: ReactNode;; variant?: ButtonVariant;; size?: ButtonSize;; loading?: boolean;","templates/button/button.tsx"
+"carousel","rubics add carousel","export function Carousel({
+  data,
+  width = SCREEN_WIDTH,
+  height = 220,
+  showDots = true,
+  style,
+  imageStyle,
+}: CarouselProps) {
+  const { theme } = useTheme();
+  const [index, setIndex] = useState(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { contentOffset, layoutMeasurement } = event.nativeEvent;
+    // Calculate the active page using exactly the layout width.
+    const page = Math.round(contentOffset.x / layoutMeasurement.width);
+    if (page !== index) setIndex(page);
+  };
+
+  return (
+    <View style={[styles.wrapper, style, { width }]}>
+      <ScrollView
+        horizontal","CarouselProps: /** Array of images to display. */; data: ImageSourcePropType[];; /** Width of the carousel. Defaults to the screen width. */; width?: number;; /** Height of the images. Defaults to 220. */; height?: number;; /** Whether to show the pagination dots below the carousel. Defaults to true. */; showDots?: boolean;; /** Custom styles for the wrapper container. */; style?: StyleProp<ViewStyle>;; /** Custom styles for the individual images. */; imageStyle?: StyleProp<ImageStyle>;","templates/carousel/carousel.tsx"
+"checkbox","rubics add checkbox","export function Checkbox({
+  checked,
+  label,
+  size = ""md"",
+  style,
+  onPress,
+  ...rest
+}: Props) {
+
+  const { theme } = useTheme()
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[...checkboxVariants({ size }), style]}
+      {...rest}
+    >
+      <View
+        style={{
+          width: 20,
+          height: 20,
+          borderRadius: 6,","Props: checked: boolean; label?: string; size?: ""sm"" | ""md"" | ""lg""","templates/checkbox/checkbox.tsx"
+"combobox","rubics add combobox","export function Combobox({ 
+  options, 
+  value, 
+  onValueChange, 
+  placeholder = ""Select an option..."", 
+  emptyText = ""No results found."",
+  style 
+}: ComboboxProps) {
+  const { theme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("""");
+  const [dropdownLayout, setDropdownLayout] = useState({ top: 0, left: 0, width: 0 });
+
+  const inputRef = useRef<View>(null);
+
+  const selectedOption = options.find((o) => o.value === value);
+
+  // Sync structural label changes cleanly
+  useEffect(() => {
+    if (!isOpen) {
+      setSearch(selectedOption ? selectedOption.label : """");
+    }","ComboboxProps: /** Array of available options */; options: ComboboxOption[];; /** Currently selected value string */; value?: string;; /** Triggered when the user taps on an item */; onValueChange: (value: string) => void;; /** Text shown dynamically inside the input box when no item is selected or user is not searching */; placeholder?: string;; /** Label to show when filtering returns empty matches */; emptyText?: string;; style?: StyleProp<ViewStyle>;","templates/combobox/combobox.tsx"
+"date-picker","rubics add date-picker","export function DatePicker({ value, onValueChange, placeholder = ""Pick a date"", style }: DatePickerProps) {
+  const { theme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(value || new Date());
+
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(year, month - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(year, month + 1, 1));
+  };
+
+  const handleSelectDate = (day: number) => {
+    const newDate = new Date(year, month, day);
+    if (onValueChange) onValueChange(newDate);
+    setIsOpen(false);
+  };","DatePickerProps: /** The currently selected Date object */; value?: Date;; /** Callback fired when a date is selected */; onValueChange?: (date: Date) => void;; /** Text to show when no date is selected. Default: 'Pick a date' */; placeholder?: string;; style?: StyleProp<ViewStyle>;","templates/date-picker/date-picker.tsx"
+"input","rubics add input","export const Input = forwardRef<TextInput, InputProps>(
+  (
+    {
+      label,
+      description,
+      error,
+      variant = ""default"",
+      size = ""md"",
+      style,
+      ...rest
+    },
+    ref
+  ) => {
+    const { theme } = useTheme()
+
+    const borderColor = error ? theme.danger : theme.inputBorder
+
+    const variantStyles =
+      variant === ""outline""
+        ? {
+            borderColor,
+            backgroundColor: ""transparent"",","No explicit *Props interface/type found","templates/input/input.tsx"
+"login-card","rubics add login-card","export function LoginCard({ children, style, ...props }: LoginCardProps) {
+  const { theme } = useTheme();
+  return (
+    <View 
+      style={[
+        styles.card, 
+        { backgroundColor: theme.cardBg || theme.background, borderColor: theme.cardBorder || theme.border }, 
+        style
+      ]} 
+      {...props}
+    >
+      {children}
+    </View>
+  );
+}
+
+export interface LoginCardHeaderProps {
+  title: string;
+  description?: string;
+  style?: StyleProp<ViewStyle>;
+}","LoginCardProps: children: React.ReactNode;; style?: StyleProp<ViewStyle>; | LoginCardHeaderProps: title: string;; description?: string;; style?: StyleProp<ViewStyle>; | LoginCardLabelProps: children: React.ReactNode;; rightElement?: React.ReactNode;; style?: StyleProp<ViewStyle>; | LoginCardFooterProps: children: React.ReactNode;; style?: StyleProp<ViewStyle>;","templates/login-card/login-card.tsx"
+"otp","rubics add otp","export function OtpInput({
+  length = 4,
+  label,
+  description,
+  error,
+  size = ""md"",
+  style,
+  keyboardType = ""number-pad"",
+  onChangeCode,
+  onComplete,
+  ...rest
+}: Props) {
+  const { theme } = useTheme()
+
+  const safeLength: OtpLength = useMemo(() => {
+    if (length === 6 || length === 8) return length
+    return 4
+  }, [length])
+
+  const [values, setValues] = useState<string[]>(() =>
+    Array.from({ length: safeLength }, () => """")
+  )","Props: /**; * Number of OTP boxes.; * Only 4, 6 and 8 are allowed.; */; length?: OtpLength; /**; * Label shown above the inputs.; */; label?: string; /**; * Helper text shown below the inputs.; */","templates/otp/otp.tsx"
+"progress","rubics add progress","export function Progress({ value = 0, style, indicatorStyle }: ProgressProps) {
+  const { theme } = useTheme();
+  
+  // Clamp value between 0 and 100
+  const clampedValue = Math.min(Math.max(value, 0), 100);
+
+  return (
+    <View style={[styles.track, { backgroundColor: theme.muted || 'rgba(255,255,255,0.15)' }, style]}>
+      <View 
+        style={[
+          styles.indicator, 
+          { 
+            backgroundColor: theme.text || theme.primary || '#fff', 
+            width: `${clampedValue}%` 
+          }, 
+          indicatorStyle
+        ]} 
+      />
+    </View>
+  );
+}","ProgressProps: /** The progress value from 0 to 100 */; value?: number;; /** Custom styles for the background track */; style?: StyleProp<ViewStyle>;; /** Custom styles for the filled indicator */; indicatorStyle?: StyleProp<ViewStyle>;","templates/progress/progress.tsx"
+"radio-group","rubics add radio-group","export function RadioGroup({ options, value, onChange, style }: RadioGroupProps) {
+  const { theme } = useTheme();
+  const selected = useMemo(
+    () => options.find((o) => o.value === value),
+    [options, value]
+  );
+
+  return (
+    <View style={[{ gap: 8 }, style]}>
+      {options.map((option) => {
+        const isActive = option.value === value;
+        return (
+          <TouchableOpacity
+            key={option.value}
+            activeOpacity={0.8}
+            onPress={() => onChange(option.value)}
+            style={styles.optionContainer}
+          >
+            <View
+              style={[
+                styles.radioOuter,
+                { borderColor: theme.cardBorder || theme.border || ""#d1d5db"" },","RadioGroupProps: options: RadioOption[];; value: string;; onChange: (value: string) => void;; style?: StyleProp<ViewStyle>;","templates/radio-group/radio-group.tsx"
+"range-slider","rubics add range-slider","export function RangeSlider({
+  min = 0,
+  max = 100,
+  step = 1,
+  value = [0, 100],
+  onValueChange,
+  startLabel,
+  endLabel,
+  trackColor = ""#e2e8f0"",
+  rangeColor = ""#0f172a"",
+  thumbColor = ""#ffffff"",
+  disabled = false,
+}: RangeSliderProps) {
+  const trackWidth = useSharedValue(0);
+
+  const valToPos = (val: number, width: number) => {
+    return ((val - min) / (max - min)) * width;
+  };
+
+  const leftPosition = useSharedValue(0);
+  const rightPosition = useSharedValue(0);","RangeSliderProps: min?: number;; max?: number;; step?: number;; value?: [number, number];; onValueChange?: (value: [number, number]) => void;; startLabel?: string;; endLabel?: string;; trackColor?: string;; rangeColor?: string;; thumbColor?: string;; disabled?: boolean;","templates/range-slider/range-slider.tsx"
+"select-card","rubics add select-card","export function SelectCardGroup({ value, onValueChange, disabled, children, style }: SelectCardGroupProps) {
+  return (
+    <SelectCardContext.Provider value={{ value, onValueChange, disabled }}>
+      <View style={[styles.group, style]}>{children}</View>
+    </SelectCardContext.Provider>
+  );
+}
+
+interface SelectCardProps {
+  value: string;
+  title: string;
+  description?: string;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+}
+
+export function SelectCard({ value, title, description, disabled, style }: SelectCardProps) {
+  const context = useContext(SelectCardContext);
+  const { theme } = useTheme();
+
+  if (!context) {
+    throw new Error(""SelectCard must be used within a SelectCardGroup"");","SelectCardGroupProps: value: string;; onValueChange: (value: string) => void;; disabled?: boolean;; children: React.ReactNode;; style?: StyleProp<ViewStyle>; | SelectCardProps: value: string;; title: string;; description?: string;; disabled?: boolean;; style?: StyleProp<ViewStyle>;","templates/select-card/select-card.tsx"
+"sidebar","rubics add sidebar","export function Sidebar({ children, style, width = 260 }: SidebarProps) {
+  const { theme } = useTheme();
+  return (
+    <View 
+      style={[
+        styles.sidebar, 
+        { 
+          width, 
+          backgroundColor: theme.cardBg || theme.background, 
+          borderRightColor: theme.cardBorder || theme.border 
+        }, 
+        style
+      ]}
+    >
+      {children}
+    </View>
+  );
+}
+
+interface SidebarItemProps {
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;","SidebarProps: children: ReactNode;; style?: StyleProp<ViewStyle>;; /** Define a constant width for the panel. Defaults to 260. */; width?: number; | SidebarItemProps: children: ReactNode;; style?: StyleProp<ViewStyle>; | SidebarTitleProps: children: ReactNode;; rightElement?: ReactNode;; style?: StyleProp<ViewStyle>; | SidebarGroupProps: title?: string;; children: ReactNode;; style?: StyleProp<ViewStyle>; | SidebarButtonProps: title: string;; icon?: ReactNode;; isActive?: boolean;; onPress?: () => void;; rightElement?: ReactNode;; style?: StyleProp<ViewStyle>;; textStyle?: StyleProp<TextStyle>; | SidebarSubButtonProps: title: string;; isActive?: boolean;; onPress?: () => void;; style?: StyleProp<ViewStyle>;","templates/sidebar/sidebar.tsx"
+"skeleton","rubics add skeleton","export function Skeleton({ style, isLoaded = false, children }: SkeletonProps) {
+  const { theme } = useTheme();
+  const opacity = useRef(new Animated.Value(0.4)).current;
+
+  useEffect(() => {
+    let animation: Animated.CompositeAnimation | null = null;
+    
+    if (!isLoaded) {
+      animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(opacity, {
+            toValue: 0.8,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacity, {
+            toValue: 0.4,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      );","SkeletonProps: /** Custom dimension styles (width, height, borderRadius) */; style?: StyleProp<ViewStyle>;; /** Condition to determine if the skeleton should stop shimmering and reveal content */; isLoaded?: boolean;; /** Revealed content once loading condition is met */; children?: React.ReactNode;","templates/skeleton/skeleton.tsx"
+"slider","rubics add slider","export function Slider({
+  min = 0,
+  max = 100,
+  step = 1,
+  value = 0,
+  onValueChange,
+  startLabel,
+  endLabel,
+  trackColor = ""#e2e8f0"",
+  rangeColor = ""#0f172a"",
+  thumbColor = ""#ffffff"",
+  disabled = false,
+}: SliderProps) {
+  const trackWidth = useSharedValue(0);
+  const position = useSharedValue(
+    ((value - min) / (max - min)) * (trackWidth.value || 1)
+  );
+  const lastPosition = useSharedValue(position.value);
+
+  const clamp = (val: number, lo: number, hi: number) =>
+    Math.min(Math.max(val, lo), hi);","SliderProps: min?: number;; max?: number;; step?: number;; value?: number;; onValueChange?: (value: number) => void;; startLabel?: string;; endLabel?: string;; trackColor?: string;; rangeColor?: string;; thumbColor?: string;; disabled?: boolean;","templates/slider/slider.tsx"
+"theme","rubics add theme","export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) {
+    throw new Error(""useTheme must be used within ThemeProvider"");
+  }
+  return ctx;
+}","No explicit *Props interface/type found","templates/theme/theme.ts"
+"utils","rubics add utils","export function cn<T>(...styles: (T | false | null | undefined)[]) {
+  return styles.filter(Boolean) as T[];
+}","No explicit *Props interface/type found","templates/utils/cn.ts"

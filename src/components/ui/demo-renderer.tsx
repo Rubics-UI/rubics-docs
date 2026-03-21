@@ -92,6 +92,101 @@ export function DemoRenderer({ elements }: { elements: DemoElement[] }) {
                 })}
               </div>
             );
+          } else if (el.type === 'carousel') {
+            content = (
+              <div className="flex gap-2 w-full overflow-hidden mb-4 mt-2">
+                <div className="w-[85%] h-32 shrink-0 rounded-lg bg-[#27272a] animate-pulse" />
+                <div className="w-[85%] h-32 shrink-0 rounded-lg bg-[#27272a] opacity-50" />
+              </div>
+            );
+          } else if (el.type === 'combobox') {
+            content = (
+              <div className="flex items-center justify-between h-11 w-full rounded-md border border-[#27272a] bg-[#09090b] px-3 text-[15px] text-[#a1a1aa] mb-3">
+                <span>Select an option...</span>
+                <svg className="w-4 h-4 text-[#a1a1aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              </div>
+            );
+          } else if (el.type === 'date-picker') {
+            content = (
+              <div className="flex items-center space-x-2 h-11 w-full rounded-md border border-[#27272a] bg-[#09090b] px-3 text-[15px] text-[#fafafa] mb-3">
+                <svg className="w-4 h-4 text-[#a1a1aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span>{new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+            );
+          } else if (el.type === 'login-card') {
+            content = (
+              <div className="w-full flex flex-col p-4 rounded-xl border border-[#27272a] bg-[#09090b] mb-4 shadow-sm">
+                <div className="text-[18px] font-semibold text-[#fafafa] mb-1">Login</div>
+                <div className="text-[13px] text-[#a1a1aa] mb-4">Enter your details to sign in.</div>
+                <div className="h-10 w-full rounded border border-[#27272a] mb-3" />
+                <div className="h-10 w-full rounded border border-[#27272a] mb-4" />
+                <div className="h-10 w-full rounded bg-[#fafafa]" />
+              </div>
+            );
+          } else if (el.type === 'progress') {
+            const progressVal = el.props?.value || 50;
+            content = (
+              <div className="w-full h-2 bg-[#27272a] rounded-full overflow-hidden mb-3">
+                <div className="h-full bg-[#fafafa]" style={{ width: `${progressVal}%` }} />
+              </div>
+            );
+          } else if (el.type === 'radio-group') {
+            content = (
+              <div className="flex flex-col gap-3 mb-3">
+                {['Option A', 'Option B'].map((label, idx) => (
+                  <div key={label} className="flex items-center space-x-3">
+                    <div className={cn("w-5 h-5 rounded-full border flex items-center justify-center", idx === 0 ? "border-[#fafafa]" : "border-[#27272a]")}>
+                      {idx === 0 && <div className="w-2.5 h-2.5 rounded-full bg-[#fafafa]" />}
+                    </div>
+                    <span className="text-[15px] text-[#fafafa]">{label}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          } else if (el.type === 'range-slider') {
+            content = (
+              <div className="w-full flex flex-col gap-3 mb-4 mt-2">
+                <div className="w-full h-1.5 bg-[#27272a] rounded-full relative">
+                  <div className="absolute left-[20%] right-[20%] h-full bg-[#fafafa] rounded-full" />
+                  <div className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-[#fafafa] rounded-full shadow-sm border border-neutral-200 left-[20%] -ml-2.5" />
+                  <div className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-[#fafafa] rounded-full shadow-sm border border-neutral-200 left-[80%] -ml-2.5" />
+                </div>
+              </div>
+            );
+          } else if (el.type === 'select-card') {
+            content = (
+              <div className="w-full p-4 rounded-xl border border-[#fafafa] bg-[#09090b] mb-4 flex justify-between items-center opacity-90">
+                <div className="flex flex-col">
+                  <span className="text-[15px] font-medium text-[#fafafa]">Pro Plan</span>
+                  <span className="text-[13px] text-[#a1a1aa]">$29/month</span>
+                </div>
+                <div className="w-5 h-5 rounded-full bg-[#fafafa] flex items-center justify-center">
+                  <Check className="w-3.5 h-3.5 text-[#09090b]" strokeWidth={3} />
+                </div>
+              </div>
+            );
+          } else if (el.type === 'sidebar') {
+            content = (
+              <div className="w-full h-40 rounded-xl border border-[#27272a] bg-[#09090b] flex overflow-hidden mb-4">
+                <div className="w-16 h-full border-r border-[#27272a] flex flex-col gap-2 p-2">
+                  <div className="w-8 h-8 rounded bg-[#27272a] mb-2" />
+                  <div className="w-full h-8 rounded bg-[#27272a] opacity-50" />
+                  <div className="w-full h-8 rounded bg-[#27272a] opacity-50" />
+                </div>
+                <div className="flex-1 p-3 flex flex-col gap-3">
+                  <div className="w-24 h-4 rounded bg-[#27272a]" />
+                  <div className="w-full h-20 rounded bg-[#27272a] opacity-30" />
+                </div>
+              </div>
+            );
+          } else if (el.type === 'skeleton') {
+            content = (
+              <div className="w-full flex flex-col gap-3 mb-4 mt-2">
+                <div className="w-12 h-12 rounded-full bg-[#27272a] animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-[#27272a] animate-pulse" />
+                <div className="w-3/4 h-4 rounded-md bg-[#27272a] animate-pulse" />
+              </div>
+            );
           }
 
           if (!content) return null;

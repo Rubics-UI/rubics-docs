@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { components } from '@/data/components';
-import { IPhoneFrame } from '@/components/ui/iphone-frame';
+import { Iphone } from '@/components/ui/iphone';
 import { DemoRenderer } from '@/components/ui/demo-renderer';
-import { Copy } from 'lucide-react';
+import { Copy, Battery, Wifi, Signal } from 'lucide-react';
 
 export function generateStaticParams() {
   return components.map((c) => ({
@@ -85,15 +85,27 @@ export default function ComponentPage({ params }: { params: { slug: string } }) 
       </div>
 
       <div className="hidden xl:flex w-[340px] shrink-0 justify-end h-full">
-        <div className="sticky top-24 pt-4">
-          <IPhoneFrame screenBg={component.iphoneDemo.screenBg || '#09090b'}>
-            <div className="w-full text-center py-2 mb-2 mt-2">
-              <span className="text-[18px] font-semibold text-white tracking-tight">
-                {component.iphoneDemo.screenTitle}
-              </span>
+        <div className="sticky top-24 pt-4 pb-12">
+          <Iphone className="w-[320px]">
+            <div className="w-full h-full flex flex-col items-center">
+              <div className="w-full h-8 flex justify-between items-end px-6 pt-1">
+                 <span className="text-[12px] font-semibold text-white tracking-wider ml-1">9:41</span>
+                 <div className="flex items-center gap-1.5 opacity-90 pb-[1px] mr-1">
+                   <Signal className="w-3.5 h-3.5 text-white fill-white" />
+                   <Wifi className="w-3.5 h-3.5 text-white" />
+                   <Battery className="w-4 h-4 text-white" />
+                 </div>
+              </div>
+              <div className="flex-1 w-full overflow-y-auto px-6 pt-8 pb-10">
+                <div className="w-full mb-8">
+                  <span className="text-[24px] font-bold text-white tracking-tight">
+                    {component.iphoneDemo.screenTitle}
+                  </span>
+                </div>
+                <DemoRenderer elements={component.iphoneDemo.elements} />
+              </div>
             </div>
-            <DemoRenderer elements={component.iphoneDemo.elements} />
-          </IPhoneFrame>
+          </Iphone>
         </div>
       </div>
     </div>
