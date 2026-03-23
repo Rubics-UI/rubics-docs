@@ -50,7 +50,7 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-6xl lg:text-[68px] font-semibold text-white tracking-tight leading-[1.05]"
             >
-              Build your component<br />library.
+              Craft beautiful<br />native apps.
             </motion.h1>
 
             <motion.p

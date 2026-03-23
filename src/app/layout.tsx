@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-
+import { Analytics } from "@vercel/analytics/next"
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -17,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Rubics UI",
-  description: "Build your component library. Beautifully designed components for React Native.",
+  description: "Beautifully designed, customizable components for React Native. Copy, paste, and ship faster.",
 };
 
 export default function RootLayout({
