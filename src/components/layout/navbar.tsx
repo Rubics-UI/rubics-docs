@@ -12,6 +12,7 @@ export function Navbar() {
   const links = [
     { name: 'Docs', href: '/docs' },
     { name: 'Components', href: '/components' },
+    { name: 'Timeline', href: '/timeline' },
     { name: 'Blocks', disabled: true },
     { name: 'Charts', disabled: true },
     { name: 'Directory', disabled: true },
