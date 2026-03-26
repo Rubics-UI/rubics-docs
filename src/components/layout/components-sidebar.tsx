@@ -19,10 +19,10 @@ export function ComponentsSidebar() {
               key={c.slug}
               href={`/components/${c.slug}`}
               className={cn(
-                "flex w-full items-center border-l-2 py-1.5 px-3 transition-colors",
+                "flex w-full items-center border-l-2 py-1.5 px-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-inset",
                 isActive 
-                  ? "border-[#fafafa] text-white font-medium bg-[#18181b]/50" 
-                  : "border-transparent text-[#71717a] hover:text-[#a1a1aa]"
+                  ? "border-zinc-100 text-white font-medium bg-zinc-900/50" 
+                  : "border-transparent text-zinc-500 hover:text-zinc-300"
               )}
             >
               {c.name}

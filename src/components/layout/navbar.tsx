@@ -3,73 +3,136 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Github, BookOpen } from 'lucide-react';
+
+const navLinks = [
+  { name: 'Docs', href: '/docs', icon: BookOpen },
+  { name: 'Components', href: '/components' },
+  { name: 'Timeline', href: '/timeline' },
+  { name: 'Blocks', disabled: true },
+  { name: 'Charts', disabled: true },
+  { name: 'Directory', disabled: true },
+  { name: 'Create', disabled: true },
+];
 
 export function Navbar() {
   const pathname = usePathname();
-
-  const links = [
-    { name: 'Docs', href: '/docs' },
-    { name: 'Components', href: '/components' },
-    { name: 'Timeline', href: '/timeline' },
-    { name: 'Blocks', disabled: true },
-    { name: 'Charts', disabled: true },
-    { name: 'Directory', disabled: true },
-    { name: 'Create', disabled: true },
-  ];
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#27272a]/40 bg-[#09090b]/80 backdrop-blur-md transition-all">
-      <div className="container flex h-14 items-center px-4 max-w-screen-2xl mx-auto">
-        <Link href="/" className="mr-8 flex items-center space-x-2.5 group">
-          <div className="relative w-[24px] h-[24px] overflow-hidden rounded-[5px] ring-1 ring-white/10 shadow-sm transform group-hover:scale-105 transition-transform duration-200">
-            <Image
-              src="/rubics-light.png"
-              alt="Rubics UI"
-              fill
-              className="object-cover"
-              sizes="24px"
-            />
-          </div>
-          <span className="font-mono font-semibold tracking-tight text-[15px] text-[#fafafa] group-hover:text-white transition-colors">{"rubics"}</span>
-        </Link>
-        <nav className="flex items-center space-x-6 text-[14px] font-medium">
-          {links.map((link) => {
-            if (link.disabled) {
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+      <div className="container flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="relative w-6 h-6 overflow-hidden rounded-md ring-1 ring-border shadow-sm group-hover:scale-105 transition-transform duration-200">
+              <Image
+                src="/rubics-light.png"
+                alt="Rubics"
+                fill
+                className="object-cover"
+                sizes="24px"
+              />
+            </div>
+            <span className="font-mono font-semibold tracking-tight text-[15px] text-foreground group-hover:text-primary transition-colors">
+              rubics
+            </span>
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-0.5 text-[14px] font-medium">
+            {navLinks.map((link) => {
+              if (link.disabled) {
+                return (
+                  <span
+                    key={link.name}
+                    className="px-3 py-1.5 text-muted-foreground cursor-not-allowed transition-colors"
+                    title="Coming soon"
+                  >
+                    {link.name}
+                  </span>
+                );
+              }
+              const isActive = pathname?.startsWith(link.href!);
+              const LinkIcon = link.icon;
               return (
-                <span
+                <Link
                   key={link.name}
-                  className="text-[#3f3f46] cursor-not-allowed transition-colors"
-                  title="Coming soon"
+                  href={link.href!}
+                  className={cn(
+                    "relative flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors",
+                    isActive ? "text-foreground bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                  )}
                 >
+                  {LinkIcon && <LinkIcon className="w-3.5 h-3.5" />}
                   {link.name}
-                </span>
+                </Link>
               );
-            }
-            const isActive = pathname?.startsWith(link.href!);
-            return (
-              <Link
-                key={link.name}
-                href={link.href!}
-                className={cn(
-                  "transition-colors hover:text-white relative py-1",
-                  isActive ? "text-white" : "text-[#71717a]"
-                )}
-              >
-                {link.name}
-                {isActive && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-t-full"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
+            })}
+          </nav>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent"
+            aria-label="GitHub"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+
+          <button
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-border bg-background/95 backdrop-blur-md overflow-hidden"
+          >
+            <nav className="container px-4 pb-4 flex flex-col gap-1 text-[15px] font-medium">
+              {navLinks.map((link) => {
+                if (link.disabled) {
+                  return (
+                    <span
+                      key={link.name}
+                      className="px-3 py-2.5 text-muted-foreground cursor-not-allowed"
+                    >
+                      {link.name} (Coming soon)
+                    </span>
+                  );
+                }
+                const isActive = pathname?.startsWith(link.href!);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href!}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "px-3 py-2.5 rounded-md transition-colors",
+                      isActive ? "text-foreground bg-accent" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

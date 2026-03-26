@@ -6,8 +6,8 @@ export default function ComponentsPage() {
   return (
     <div className="flex flex-col space-y-8 max-w-4xl">
       <div className="space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight text-white">Components</h1>
-        <p className="text-lg text-[#a1a1aa]">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground">Components</h1>
+        <p className="text-lg text-muted-foreground">
           Beautifully designed components for React Native that you can copy and paste into your apps.
         </p>
       </div>
@@ -17,19 +17,19 @@ export default function ComponentsPage() {
           <Link
             key={c.slug}
             href={`/components/${c.slug}`}
-            className="group flex flex-col justify-between p-6 bg-[#18181b] border border-[#27272a] rounded-xl hover:border-[#52525b] transition-colors"
+            className="group flex flex-col justify-between p-6 bg-card border border-border rounded-xl hover:shadow-soft-lg hover:border-border/80 transition-all"
           >
             <div className="space-y-3">
-              <h3 className="font-semibold text-white">{c.name}</h3>
-              <p className="text-sm text-[#a1a1aa] line-clamp-2">
+              <h3 className="font-semibold text-foreground">{c.name}</h3>
+              <p className="text-sm text-muted-foreground line-clamp-2">
                 {c.description}
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-[#27272a] flex items-center justify-between">
-              <code className="relative rounded bg-[#09090b] px-[0.4rem] py-[0.2rem] font-mono text-[13px] text-[#a1a1aa]">
+            <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
+              <code className="relative rounded bg-muted px-[0.4rem] py-[0.2rem] font-mono text-[13px] text-muted-foreground">
                 {c.installCommand.replace('rubics add ', 'add ')}
               </code>
-              <div className="flex items-center text-sm font-medium text-white group-hover:text-[#fafafa]">
+              <div className="flex items-center text-sm font-medium text-foreground group-hover:text-primary">
                 View <ChevronRight className="ml-1 h-4 w-4" />
               </div>
             </div>
