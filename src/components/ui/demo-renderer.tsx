@@ -38,25 +38,34 @@ export function DemoRenderer({ elements }: { elements: DemoElement[] }) {
           } else if (el.type === 'input') {
             content = (
               <div className="flex flex-col gap-1.5 w-full mb-3">
-                {el.props?.label && <label className="text-[14px] font-medium text-[#fafafa]">{el.props.label}</label>}
-                <div className={cn("flex items-center h-11 w-full rounded-md border border-[#27272a] bg-[#09090b] px-3 text-[15px] text-[#fafafa]", el.props?.error && "border-red-500/50")}>
-                  <span className={cn("flex-1", el.props?.placeholder ? "text-[#a1a1aa]" : "text-[#fafafa]")}>
+                {el.props?.label && <label className="text-[14px] font-medium text-zinc-100">{el.props.label}</label>}
+                <div 
+                  role="textbox"
+                  className={cn("flex items-center h-11 w-full rounded-md border bg-zinc-950 px-3 text-[15px] text-zinc-100", el.props?.error ? "border-red-500/50" : "border-zinc-800")}
+                  tabIndex={0}
+                >
+                  <span className={cn("flex-1", el.props?.placeholder ? "text-zinc-500" : "text-zinc-100")}>
                     {el.props?.secure ? '••••••••' : el.props?.placeholder || ''}
                   </span>
                 </div>
-                {el.props?.error && <span className="text-[13px] text-red-500">{el.props.error}</span>}
+                {el.props?.error && <span className="text-[13px] text-red-500" role="alert">{el.props.error}</span>}
               </div>
             );
           } else if (el.type === 'checkbox') {
             const checked = el.props?.checked;
             const disabled = el.props?.disabled;
             content = (
-              <div className={cn("flex items-center space-x-3 mb-3", disabled && "opacity-50")}>
-                <div className={cn("w-5 h-5 rounded-[4px] border flex items-center justify-center transition-colors", checked ? "bg-[#fafafa] border-[#fafafa]" : "border-[#27272a] bg-transparent")}>
-                  {checked && <Check className="w-3.5 h-3.5 text-[#09090b]" strokeWidth={3} />}
+              <label className={cn("flex items-center space-x-3 mb-3 cursor-pointer select-none", disabled && "opacity-50 pointer-events-none")}>
+                <div 
+                  role="checkbox" 
+                  aria-checked={checked}
+                  aria-label={el.props?.label as string}
+                  className={cn("w-5 h-5 rounded-[4px] border flex items-center justify-center transition-colors cursor-pointer", checked ? "bg-zinc-100 border-zinc-100" : "border-zinc-800 bg-transparent")}
+                >
+                  {checked && <Check className="w-3.5 h-3.5 text-zinc-950" strokeWidth={3} />}
                 </div>
-                <span className="text-[15px] text-[#fafafa] font-medium">{el.props?.label}</span>
-              </div>
+                <span className="text-[15px] text-zinc-100 font-medium">{el.props?.label}</span>
+              </label>
             );
           } else if (el.type === 'slider') {
             content = (
@@ -132,14 +141,17 @@ export function DemoRenderer({ elements }: { elements: DemoElement[] }) {
             );
           } else if (el.type === 'radio-group') {
             content = (
-              <div className="flex flex-col gap-3 mb-3">
+              <div className="flex flex-col gap-3 mb-3" role="radiogroup" aria-label="Radio options">
                 {['Option A', 'Option B'].map((label, idx) => (
-                  <div key={label} className="flex items-center space-x-3">
-                    <div className={cn("w-5 h-5 rounded-full border flex items-center justify-center", idx === 0 ? "border-[#fafafa]" : "border-[#27272a]")}>
-                      {idx === 0 && <div className="w-2.5 h-2.5 rounded-full bg-[#fafafa]" />}
-                    </div>
-                    <span className="text-[15px] text-[#fafafa]">{label}</span>
-                  </div>
+                  <label key={label} className="flex items-center space-x-3 cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="demo-radio" 
+                      className="w-5 h-5" 
+                      defaultChecked={idx === 0}
+                    />
+                    <span className="text-[15px] text-zinc-100">{label}</span>
+                  </label>
                 ))}
               </div>
             );

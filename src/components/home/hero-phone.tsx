@@ -24,8 +24,8 @@ export function HeroPhone() {
   }, [screens.length]);
 
   return (
-    <div className="relative flex items-center justify-center w-full h-[600px] min-h-[600px] perspective-1000">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[500px] bg-[#6366f1] opacity-15 blur-[100px] rounded-full pointer-events-none" />
+    <div className="relative flex items-center justify-center w-full h-[420px] sm:h-[500px] lg:h-[600px] perspective-1000">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] sm:w-[260px] h-[280px] sm:h-[420px] bg-indigo-500/20 dark:bg-indigo-500/10 blur-[70px] sm:blur-[90px] rounded-full pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -44,7 +44,7 @@ export function HeroPhone() {
           style={{ transformStyle: "preserve-3d" }}
           className="will-change-transform shadow-2xl rounded-[48px] shadow-indigo-500/10"
         >
-          <Iphone className="w-[320px]">
+          <Iphone className="w-[260px] sm:w-[280px] lg:w-[320px]">
             <div className="w-full h-full flex flex-col items-center">
               {/* Status Bar */}
               <div className="w-full h-8 flex justify-between items-end px-6 pt-1">
